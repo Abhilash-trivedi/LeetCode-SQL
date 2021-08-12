@@ -1,0 +1,9 @@
+select distinct c.name from (
+select CandidateId as Id,
+        count(CandidateId) as mx
+        from Vote 
+        group by CandidateId
+        ) d, Candidate as c 
+        where d.Id = c.id
+        order by mx desc
+        limit 1;
