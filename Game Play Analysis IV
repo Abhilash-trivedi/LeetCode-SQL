@@ -1,0 +1,5 @@
+SELECT ROUND( COUNT(*) / (SELECT COUNT(DISTINCT player_id) FROM Activity), 2) fraction
+FROM 
+    (SELECT *, MIN(event_date) OVER (PARTITION BY player_id ORDER BY player_id, event_date) first_login
+    FROM Activity) ActivityFirst
+WHERE event_date = first_login + 1

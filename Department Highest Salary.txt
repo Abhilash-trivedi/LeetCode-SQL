@@ -1,0 +1,10 @@
+select d.Name as Department,
+        e.Name as Employee,
+        e.Salary
+from Department d
+left join Employee e
+on d.Id=e.DepartmentId
+where e.Salary=( select max(Salary) 
+             from Employee
+             where Employee.DepartmentId=d.Id)
+        

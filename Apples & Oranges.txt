@@ -1,0 +1,5 @@
+select s1.sale_date, (s1.sold_num-s2.sold_num) as diff
+from Sales as s1, Sales as s2
+where s1.sale_date = s2.sale_date and 
+      s1.fruit != s2.fruit and 
+      s1.fruit = 'apples'

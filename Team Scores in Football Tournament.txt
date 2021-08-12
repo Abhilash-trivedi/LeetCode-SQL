@@ -1,0 +1,26 @@
+with won as (
+select host_team as team_id,
+    if(guest_goals <= host_goals, if(guest_goals < host_goals,3,1),0) as point from Matches
+),
+
+lost as (
+ select guest_team as team_id,
+if(guest_goals >= host_goals,if(guest_goals > host_goals,3,1),0) as point from Matches
+ )
+ ,
+ alll as (
+     select team_id, point from won 
+     union all
+     select team_id, point from lost
+ )
+ 
+
+ select t.team_id, t.team_name,COALESCE(sum(point),0) as num_points from 
+Teams t
+ left join 
+alll a
+on t.team_id= a.team_id
+group by team_id
+order by num_points desc, team_id;
+ 
+ 

@@ -1,0 +1,2 @@
+select distinct P1.Email from Person P1, Person P2
+where P1.ID <> P2.ID and P1.Email = P2.Email;

@@ -1,0 +1,9 @@
+select student_id,
+        course_id,
+        grade from ( select student_id,
+        course_id,
+        grade, 
+        row_number() over(partition by student_id order by grade desc,course_id asc ) Rank
+from 
+    Enrollments  ) d
+    where Rank=1

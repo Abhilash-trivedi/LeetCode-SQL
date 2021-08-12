@@ -1,0 +1,11 @@
+select user_id as buyer_id,
+    join_date,
+    count(order_id) as orders_in_2019
+from Users  
+     left join (
+     select*from 
+     Orders where 
+     order_date like '2019%') d
+     on Users.user_id = d.buyer_id
+group by
+    user_id

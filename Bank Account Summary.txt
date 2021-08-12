@@ -1,0 +1,20 @@
+WITH trans AS(
+    SELECT trans_id, paid_by, paid_to, 
+        (CASE WHEN paid_by THEN (-amount) END) AS paid, 
+        (CASE WHEN paid_to THEN amount END) AS recived   
+    FROM Transactions),
+
+full_trans AS(
+    SELECT paid_by AS user_id, paid AS amount FROM trans
+    UNION ALL 
+    SELECT paid_to AS user_id, recived AS amount FROM trans
+    UNION ALL  
+    SELECT user_id AS user_id, credit AS amount FROM Users)
+    
+SELECT U.user_id, U.user_name, 
+       SUM(full_trans.amount) AS credit, 
+       (CASE WHEN SUM(full_trans.amount) < 0 THEN 'Yes' ELSE 'No' END) AS credit_limit_breached
+FROM Users U
+LEFT JOIN full_trans
+ON U.user_id = full_trans.user_id
+GROUP BY 1
