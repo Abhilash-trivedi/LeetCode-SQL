@@ -1,0 +1,10 @@
+with MD as (
+         select ManagerId as Id, count(ManagerId) 
+         as cnt from 
+            Employee where ManagerId is not NULL
+                  group by ManagerId
+)
+
+# select * from MD;
+select Employee.Name from Employee, Md 
+where Employee.ID=MD.ID and Md.cnt>=5;
